@@ -133,20 +133,26 @@ public class game {
 
     }
 
-    public void BFS(State state) {
+    public LinkedList<node> BFS(State state) {
         LinkedList<node> list = new LinkedList<node>();
         ArrayList<State> visited = new ArrayList();
-        list.add(new node(bx, by));
+        visited.add(new node(bx, by));
         node current, next;
 
+        current = s[n.bx][n.by];
         while (!list.isEmpty()) {
-            visited.add(next);
+            
+            LinkedList<node> adjacents = current.getAdjacents();
             current = list.removeFirst();
-
-            if (winning(current[bx][by], bx, by)) {
-                System.out.print("Congratz");
-                break;
+            
+             for (node n: adjacents) { 
+            if (!visited.contains(n)) {
+                visited.add(n);
+                queue.add(n);
             }
+        }
+            current = queue.remove(); // goes to the next node
+           
             next = current.Upwards();
             list.add(next(n.bx, n.by));
             next = current.Right();
@@ -156,4 +162,13 @@ public class game {
             next = current.Left();
             list.add(next(n.bx, n.by));
     }
+        LinkedList<node> path = new LinkedList<>();
+        path.addFirst(current);
+          while (current != s[n.bx][n.by]) {
+            current = visited.get(current);
+            path.addFirst(current);
+           }
+
+    return path;
+        
 }
